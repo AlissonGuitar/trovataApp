@@ -1,6 +1,8 @@
 package com.example.trovataapp.Model;
 
-public class Produto {
+import java.io.Serializable;
+
+public class Produto implements Serializable {
 
     private int empresaProdutoId;
     private int produtoId;

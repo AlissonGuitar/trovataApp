@@ -1,34 +1,35 @@
 package com.example.trovataapp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.trovataapp.Model.Empresa;
+import com.example.trovataapp.Activity.ProdutoActivity;
 import com.example.trovataapp.R;
 
 import java.util.List;
 
 public class EmpresaRecyclerViewAdapter extends RecyclerView.Adapter<EmpresaRecyclerViewAdapter.EmpresaViewHolder> {
 
-    private Context mCtx;
+    private Context context;
     private List<Empresa> empresas;
 
-    public EmpresaRecyclerViewAdapter(Context mCtx, List<Empresa> empresas) {
-        this.mCtx = mCtx;
+    public EmpresaRecyclerViewAdapter(Context context, List<Empresa> empresas) {
+        this.context = context;
         this.empresas = empresas;
     }
 
     @Override
     public EmpresaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
-        v = LayoutInflater.from(mCtx).inflate(R.layout.item_empresa, parent, false);
+        v = LayoutInflater.from(context).inflate(R.layout.item_empresa, parent, false);
         EmpresaViewHolder empresaViewHolder = new EmpresaViewHolder(v);
         return empresaViewHolder;
     }
@@ -45,7 +46,10 @@ public class EmpresaRecyclerViewAdapter extends RecyclerView.Adapter<EmpresaRecy
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     String idEmpresa = String.valueOf(empresas.get(position).getEmpresaId());
-                    Toast.makeText(mCtx, idEmpresa, Toast.LENGTH_SHORT).show();
+                    ProdutoActivity.idEmpresa = Integer.parseInt(idEmpresa);
+                    ProdutoActivity.nomeEmpresa = empresas.get(position).getRazaoSocial();
+                    Intent intent = new Intent(context, ProdutoActivity.class);
+                    context.startActivity(intent);
 
                 }
                 return true;

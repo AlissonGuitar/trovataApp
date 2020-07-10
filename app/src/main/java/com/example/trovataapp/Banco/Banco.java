@@ -20,14 +20,15 @@ public class Banco extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 30;
 
     // Database Name
-    private static final String DATABASE_NAME = "trovata_db";
+    private static final String DATABASE_NAME = "trovata.db";
 
     // Tabelas
     private static final String TABELA_EMPRESA = "empresa";
     private static final String TABELA_PRODUTO = "produto";
+    private static final String TABELA_GRUPO_PRODUTO = "grupo_produto";
 
     // colunas tabela Empresa
 
@@ -49,7 +50,7 @@ public class Banco extends SQLiteOpenHelper {
     private static final String PRODUTO_ID = "produto_id";
     private static final String DESCRICAO_PRODUTO = "descricao_produto";
     private static final String APELIDO_PRODUTO = "apelido_produto";
-    private static final String GRUPO_PRODUTO = "grupo_produto";
+    private static final String GRUPO_PRODUTO_ID_PRODUTO = "grupo_produto_id_produto";
     private static final String SUBGRUPO_PRODUTO = "subgrupo_produto";
     private static final String SITUACAO = "situacao";
     private static final String PESO_LIQUIDO = "peso_liquido";
@@ -57,9 +58,17 @@ public class Banco extends SQLiteOpenHelper {
     private static final String CODIGO_BARRAS = "codigo_barras";
     private static final String COLECAO = "colecao";
 
+    //colunas tabela grupoProduto
+
+    private static final String EMPRESA_GRUPO_PRODUTO_ID = "emprsa_grupo_produto_id";
+    private static final String GRUPO_PRODUTO_ID = "grupo_produto_id";
+    private static final String DESCRICAO_GRUPO_PRODUTO = "descricao_grupo_produto";
+    private static final String PERC_DESCONTO = "perc_desconto";
+    private static final String TIPO_COMPLEMENTO = "tipo_complemento";
+
 
     // tabela empresa
-    private static final String CREATE_TABLE_EMPRESA = "CREATE TABLE " + TABELA_PRODUTO + "("
+    private static final String CREATE_TABLE_EMPRESA = "CREATE TABLE " + TABELA_EMPRESA + " ("
             + EMPRESA_ID + " INTEGER PRIMARY KEY autoincrement,"
             + NOME_FANTASIA + " TEXT,"
             + RAZAO_SOCIAL + " TEXT,"
@@ -74,19 +83,31 @@ public class Banco extends SQLiteOpenHelper {
 
     //tabela produto
 
-    private static final String CREATE_TABLE_PRODUTO = "CREATE TABLE " + TABELA_EMPRESA + "("
+    private static final String CREATE_TABLE_PRODUTO = "CREATE TABLE " + TABELA_PRODUTO + "("
             + EMPRESA_PRODUTO_ID + " INTEGER,"
             + PRODUTO_ID + " INTEGER PRIMARY KEY autoincrement,"
             + DESCRICAO_PRODUTO + " TEXT,"
             + APELIDO_PRODUTO + " TEXT,"
-            + GRUPO_PRODUTO + " TEXT,"
+            + GRUPO_PRODUTO_ID_PRODUTO + " INTEGER,"
             + SUBGRUPO_PRODUTO + " TEXT,"
             + SITUACAO + " TEXT,"
             + PESO_LIQUIDO + " INTEGER,"
             + CLASSIFICACAO_FISCAL + " TEXT,"
             + CODIGO_BARRAS + " TEXT,"
             + COLECAO + " TEXT,"
+            + " FOREIGN KEY (" + GRUPO_PRODUTO_ID_PRODUTO + ") REFERENCES " + TABELA_GRUPO_PRODUTO + "(" + GRUPO_PRODUTO_ID + "),"
             + " FOREIGN KEY (" + EMPRESA_PRODUTO_ID + ") REFERENCES " + TABELA_EMPRESA + "(" + EMPRESA_ID + "));";
+
+
+    //tabela grupoProduto
+
+    private static final String CREATE_TABLE_GRUPO_PRODUTO = "CREATE TABLE " + TABELA_GRUPO_PRODUTO + "("
+            + EMPRESA_GRUPO_PRODUTO_ID + " INTEGER,"
+            + GRUPO_PRODUTO_ID + " INTEGER PRIMARY KEY autoincrement,"
+            + DESCRICAO_GRUPO_PRODUTO + " TEXT,"
+            + PERC_DESCONTO + " INTEGER,"
+            + TIPO_COMPLEMENTO + " TEXT,"
+            + " FOREIGN KEY (" + EMPRESA_GRUPO_PRODUTO_ID + ") REFERENCES " + TABELA_EMPRESA + "(" + EMPRESA_ID + "));";
 
 
     public Banco(Context context) {
@@ -98,6 +119,7 @@ public class Banco extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_EMPRESA);
         db.execSQL(CREATE_TABLE_PRODUTO);
+        db.execSQL(CREATE_TABLE_GRUPO_PRODUTO);
     }
 
     @Override
@@ -105,19 +127,20 @@ public class Banco extends SQLiteOpenHelper {
         // drop tabela antiga
         db.execSQL("DROP TABLE IF EXISTS " + TABELA_EMPRESA);
         db.execSQL("DROP TABLE IF EXISTS " + TABELA_PRODUTO);
+        db.execSQL("DROP TABLE IF EXISTS " + TABELA_GRUPO_PRODUTO);
 
         // criar nova tabela
         onCreate(db);
 
     }
 
-    public void criarProduto(Produto produto) {
+    public boolean criarProduto(Produto produto) {
         ContentValues values = new ContentValues();
 
         values.put(EMPRESA_PRODUTO_ID, produto.getEmpresaProdutoId());
         values.put(DESCRICAO_PRODUTO, produto.getDescricaoProduto());
         values.put(APELIDO_PRODUTO, produto.getApelidoProduto());
-        values.put(GRUPO_PRODUTO, produto.getGrupoProduto());
+        values.put(GRUPO_PRODUTO_ID_PRODUTO, produto.getGrupoProduto());
         values.put(SUBGRUPO_PRODUTO, produto.getSubgrupoProduto());
         values.put(SITUACAO, produto.getSituacao());
         values.put(PESO_LIQUIDO, produto.getPesoLiquido());
@@ -126,17 +149,17 @@ public class Banco extends SQLiteOpenHelper {
         values.put(COLECAO, produto.getColecao());
 
 
-        db.insert(TABELA_PRODUTO, null, values);
+        return db.insert(TABELA_PRODUTO, null, values) > 0;
     }
 
-    public void updateProduto(Produto produto) {
+    public boolean updateProduto(Produto produto) {
 
         ContentValues values = new ContentValues();
 
         values.put(EMPRESA_PRODUTO_ID, produto.getEmpresaProdutoId());
         values.put(DESCRICAO_PRODUTO, produto.getDescricaoProduto());
         values.put(APELIDO_PRODUTO, produto.getApelidoProduto());
-        values.put(GRUPO_PRODUTO, produto.getGrupoProduto());
+        values.put(GRUPO_PRODUTO_ID_PRODUTO, produto.getGrupoProduto());
         values.put(SUBGRUPO_PRODUTO, produto.getSubgrupoProduto());
         values.put(SITUACAO, produto.getSituacao());
         values.put(PESO_LIQUIDO, produto.getPesoLiquido());
@@ -145,20 +168,19 @@ public class Banco extends SQLiteOpenHelper {
         values.put(COLECAO, produto.getColecao());
 
 
-        db.update(TABELA_PRODUTO, values, PRODUTO_ID + " = ?", new String[]{"" + produto.getProdutoId()});
+        return db.update(TABELA_PRODUTO, values, PRODUTO_ID + " = ?", new String[]{"" + produto.getProdutoId()}) > 0;
 
 
     }
 
-    public void deletarProduto(Produto produto) {
-        db.delete(TABELA_PRODUTO, PRODUTO_ID + " = " + produto.getProdutoId(), null);
+    public boolean deletarProduto(int idProduto) {
+        return db.delete(TABELA_PRODUTO, PRODUTO_ID + " = " + idProduto, null) > 0;
     }
 
-    public List<Produto> buscarProduto() {
+    public List<Produto> buscarProdutoEmpresa(int idEmpresa) {
         List<Produto> produtos = new ArrayList<>();
 
-        //Cursor cursor = db.query(TABELA_EMPRESA, colunas, null, null, null, null, RAZAO_SOCIAL + " ASC");
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_PRODUTO, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_PRODUTO + " WHERE " + EMPRESA_PRODUTO_ID + " = " + idEmpresa, null);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();

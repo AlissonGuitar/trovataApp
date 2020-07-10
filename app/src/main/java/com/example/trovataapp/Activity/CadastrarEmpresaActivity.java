@@ -1,4 +1,4 @@
-package com.example.trovataapp;
+package com.example.trovataapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,11 +12,12 @@ import android.widget.Toast;
 import com.example.trovataapp.Adapter.EmpresaRecyclerViewAdapter;
 import com.example.trovataapp.Banco.Banco;
 import com.example.trovataapp.Model.Empresa;
+import com.example.trovataapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CadastrarEmpresa extends AppCompatActivity {
+public class CadastrarEmpresaActivity extends AppCompatActivity {
 
     private static EmpresaRecyclerViewAdapter empresaRecyclerViewAdapter;
     private static List<Empresa> empresas;
@@ -63,7 +64,7 @@ public class CadastrarEmpresa extends AppCompatActivity {
     }
 
     private void mostrarEmpresasCadastradas() {
-        Intent intent = new Intent(this, EmpresaCadastradas.class);
+        Intent intent = new Intent(this, EmpresaActivity.class);
         startActivity(intent);
     }
 

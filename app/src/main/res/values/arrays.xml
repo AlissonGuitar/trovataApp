@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tipo_ordenacao_produto">
+        <item>código</item>
+        <item>descricao</item>
+    </string-array>
+</resources>
