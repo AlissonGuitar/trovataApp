@@ -11,7 +11,7 @@ import android.widget.*;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.trovataapp.ActivityCadastrarProduto;
+import com.example.trovataapp.Activity.ActivityCadastrarProduto;
 import com.example.trovataapp.Banco.Banco;
 import com.example.trovataapp.Filtro.FiltroProdutos;
 import com.example.trovataapp.Model.Produto;
@@ -60,26 +60,8 @@ public class ProdutoRecyclerViewAdapter extends RecyclerView.Adapter<ProdutoRecy
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final View view = v;
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Confirmação")
-                        .setMessage("Tem certeza que deseja excluir este produto?")
-                        .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Banco banco = new Banco(view.getContext());
-                                boolean sucesso = banco.deletarProduto(produto.getProdutoId());
-                                if (sucesso) {
-                                    removerProduto(produto);
-                                    Toast.makeText(context, "Produto excluido!", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(context, " Erro ao excluir produto!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        })
-                        .setNegativeButton("Cancelar", null)
-                        .create()
-                        .show();
+                dialogConfirmaExclusaoProduto(v, produto);
+
             }
         });
     }
@@ -109,9 +91,9 @@ public class ProdutoRecyclerViewAdapter extends RecyclerView.Adapter<ProdutoRecy
         ProdutoViewHolder(View itemView) {
             super(itemView);
 
-            descricaoProduto = itemView.findViewById(R.id.descricaoProduto);
-            btnEdit = itemView.findViewById(R.id.btnEdit);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
+            descricaoProduto = itemView.findViewById(R.id.descricaoProdutoLista);
+            btnEdit = itemView.findViewById(R.id.btnEditProduto);
+            btnDelete = itemView.findViewById(R.id.btnDeleteProduto);
 
 
         }
@@ -133,5 +115,28 @@ public class ProdutoRecyclerViewAdapter extends RecyclerView.Adapter<ProdutoRecy
     public void adicionarProduto(Produto produto) {
         produtos.add(produto);
         notifyItemInserted(getItemCount());
+    }
+
+    private void dialogConfirmaExclusaoProduto(View v, Produto produto) {
+        final View view = v;
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setTitle("Confirmação")
+                .setMessage("Tem certeza que deseja excluir este produto?")
+                .setPositiveButton("Excluir", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Banco banco = new Banco(view.getContext());
+                        boolean sucesso = banco.deletarProduto(produto.getProdutoId());
+                        if (sucesso) {
+                            removerProduto(produto);
+                            Toast.makeText(context, "Produto excluido!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, " Erro ao excluir produto!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton("Cancelar", null)
+                .create()
+                .show();
     }
 }

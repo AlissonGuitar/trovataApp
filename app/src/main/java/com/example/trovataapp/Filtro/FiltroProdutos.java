@@ -30,7 +30,7 @@ public class FiltroProdutos extends Filter {
             switch (tipoFiltroProduto) {
                 case "Grupo Produto":
                     for (Produto produto : filtroProdutos) {
-                        if (produto.getGrupoProduto().toUpperCase().contains(constraint)) {
+                        if (String.valueOf(produto.getGrupoProdutoId()).toUpperCase().contains(constraint)) {
                             filtroModelo.add(produto);
                         }
                     }

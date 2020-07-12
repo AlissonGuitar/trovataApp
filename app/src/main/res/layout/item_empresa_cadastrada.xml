@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
+            android:id="@+id/razaoSocialEmpresaLista"
+            android:text="Razao Social Empresa"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="14sp"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/btnEditEmpresa"
+            android:layout_marginRight="8dp" />
+
+    <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/btnEditEmpresa"
+            android:src="@android:drawable/ic_menu_edit"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintRight_toLeftOf="@+id/btnDeleteEmpresa"
+            android:layout_marginRight="8dp" />
+
+    <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/btnDeleteEmpresa"
+            android:src="@android:drawable/ic_delete"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

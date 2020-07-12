@@ -16,12 +16,12 @@ import com.example.trovataapp.R;
 
 import java.util.List;
 
-public class EmpresaRecyclerViewAdapter extends RecyclerView.Adapter<EmpresaRecyclerViewAdapter.EmpresaViewHolder> {
+public class EmpresaLoginRecyclerViewAdapter extends RecyclerView.Adapter<EmpresaLoginRecyclerViewAdapter.EmpresaViewHolder> {
 
     private Context context;
     private List<Empresa> empresas;
 
-    public EmpresaRecyclerViewAdapter(Context context, List<Empresa> empresas) {
+    public EmpresaLoginRecyclerViewAdapter(Context context, List<Empresa> empresas) {
         this.context = context;
         this.empresas = empresas;
     }
@@ -29,7 +29,7 @@ public class EmpresaRecyclerViewAdapter extends RecyclerView.Adapter<EmpresaRecy
     @Override
     public EmpresaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
-        v = LayoutInflater.from(context).inflate(R.layout.item_empresa, parent, false);
+        v = LayoutInflater.from(context).inflate(R.layout.item_empresa_login, parent, false);
         EmpresaViewHolder empresaViewHolder = new EmpresaViewHolder(v);
         return empresaViewHolder;
     }

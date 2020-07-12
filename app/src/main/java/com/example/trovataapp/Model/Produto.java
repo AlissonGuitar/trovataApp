@@ -6,9 +6,10 @@ public class Produto implements Serializable {
 
     private int empresaProdutoId;
     private int produtoId;
+    private byte[] imagemProduto;
     private String descricaoProduto;
     private String apelidoProduto;
-    private String grupoProduto;
+    private int grupoProdutoId;
     private String subgrupoProduto;
     private String situacao;
     private String pesoLiquido;
@@ -22,6 +23,14 @@ public class Produto implements Serializable {
 
     public void setEmpresaProdutoId(int empresaProdutoId) {
         this.empresaProdutoId = empresaProdutoId;
+    }
+
+    public byte[] getImagemProduto() {
+        return imagemProduto;
+    }
+
+    public void setImagemProduto(byte[] imagemProduto) {
+        this.imagemProduto = imagemProduto;
     }
 
     public int getProdutoId() {
@@ -48,12 +57,12 @@ public class Produto implements Serializable {
         this.apelidoProduto = apelidoProduto;
     }
 
-    public String getGrupoProduto() {
-        return grupoProduto;
+    public int getGrupoProdutoId() {
+        return grupoProdutoId;
     }
 
-    public void setGrupoProduto(String grupoProduto) {
-        this.grupoProduto = grupoProduto;
+    public void setGrupoProdutoId(int grupoProdutoId) {
+        this.grupoProdutoId = grupoProdutoId;
     }
 
     public String getSubgrupoProduto() {
@@ -104,12 +113,13 @@ public class Produto implements Serializable {
         this.colecao = colecao;
     }
 
-    public Produto(int empresaProdutoId, int produtoId, String descricaoProduto, String apelidoProduto, String grupoProduto, String subgrupoProduto, String situacao, String pesoLiquido, String classificacaoFiscal, String codigoBarras, String colecao) {
+    public Produto(int empresaProdutoId, int produtoId,byte[] imagemProduto, String descricaoProduto, String apelidoProduto, int grupoProdutoId, String subgrupoProduto, String situacao, String pesoLiquido, String classificacaoFiscal, String codigoBarras, String colecao) {
         this.empresaProdutoId = empresaProdutoId;
         this.produtoId = produtoId;
+        this.imagemProduto = imagemProduto;
         this.descricaoProduto = descricaoProduto;
         this.apelidoProduto = apelidoProduto;
-        this.grupoProduto = grupoProduto;
+        this.grupoProdutoId = grupoProdutoId;
         this.subgrupoProduto = subgrupoProduto;
         this.situacao = situacao;
         this.pesoLiquido = pesoLiquido;

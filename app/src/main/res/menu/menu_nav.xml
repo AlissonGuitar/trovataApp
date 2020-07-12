@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+        <item android:id="@+id/empresas"
+              android:icon="@drawable/empresas"
+              android:title="Empresas Cadastradas"/>
+        <item android:id="@+id/produtos"
+              android:icon="@drawable/produtos"
+              android:title="Produtos Cadastrados"/>
+        <item android:id="@+id/sair"
+              android:icon="@drawable/sair"
+              android:title="Sair da empresa"/>
+    </group>
+</menu>

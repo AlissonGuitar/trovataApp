@@ -1,6 +1,8 @@
 package com.example.trovataapp.Model;
 
-public class Empresa {
+import java.io.Serializable;
+
+public class Empresa implements Serializable {
 
     private int empresaId;
     private String nomeFantasia;
@@ -8,6 +10,8 @@ public class Empresa {
     private String endereco;
     private String bairro;
     private String cep;
+    private String pais;
+
     private String cidade;
     private String telefone;
     private String fax;
@@ -15,7 +19,7 @@ public class Empresa {
     private String IE;
 
 
-    public Empresa(int empresa, String nomeFantasia, String razaoSocial, String endereco, String bairro, String cep, String cidade, String telefone, String fax, String CNPJ, String IE) {
+    public Empresa(int empresa, String nomeFantasia, String razaoSocial, String endereco, String bairro, String cep, String pais, String cidade, String telefone, String fax, String CNPJ, String IE) {
         this.empresaId = empresa;
         this.nomeFantasia = nomeFantasia;
         this.razaoSocial = razaoSocial;
@@ -23,10 +27,19 @@ public class Empresa {
         this.bairro = bairro;
         this.cep = cep;
         this.cidade = cidade;
+        this.pais = pais;
         this.telefone = telefone;
         this.fax = fax;
         this.CNPJ = CNPJ;
         this.IE = IE;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 
     public String getCidade() {

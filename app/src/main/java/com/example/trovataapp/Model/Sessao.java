@@ -21,5 +21,14 @@ public class Sessao {
         return id;
     }
 
+    public void setNomeEmpresaLogado(String nomeEmpresaLogado) {
+        prefs.edit().putString("nomeEmpresaLogado", nomeEmpresaLogado).commit();
+    }
+
+    public String getNomeEmpresaLogado() {
+        String nomeEmpresaLogado = prefs.getString("nomeEmpresaLogado", "");
+        return nomeEmpresaLogado;
+    }
+
 
 }

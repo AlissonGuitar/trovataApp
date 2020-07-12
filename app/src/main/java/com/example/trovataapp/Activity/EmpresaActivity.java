@@ -1,79 +1,125 @@
 package com.example.trovataapp.Activity;
 
-import androidx.appcompat.app.ActionBar;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.view.MenuItem;
+import android.widget.Button;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
-
-import com.example.trovataapp.Adapter.EmpresaRecyclerViewAdapter;
+import com.example.trovataapp.Adapter.EmpresaCadastradaRecyclerViewAdapter;
 import com.example.trovataapp.Banco.Banco;
 import com.example.trovataapp.Model.Empresa;
-import com.example.trovataapp.Model.Produto;
+import com.example.trovataapp.Model.Sessao;
 import com.example.trovataapp.R;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
-public class EmpresaActivity extends AppCompatActivity {
+public class EmpresaActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private EmpresaRecyclerViewAdapter empresaRecyclerViewAdapter;
+    private RecyclerView recyclerView;
+    private EmpresaCadastradaRecyclerViewAdapter empresaCadastradaRecyclerViewAdapter;
     private Banco banco;
-    private static List<Empresa> empresas;
-    private static List<Produto> produtos;
+    private Sessao sessao;
+    private Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recyclerview);
+        setContentView(R.layout.activity_recyclerview_empresa);
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle("Empresas");
-        }
+        sessao = new Sessao(this);
+
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navViewEmpresa);
+        navigationView.setNavigationItemSelectedListener(this);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Empresas Cadastradas");
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
 
         carregarEmpresas();
-        inserirEmpresas();
-
-
     }
+
 
     private void carregarEmpresas() {
-
         banco = new Banco(this);
-        empresas = banco.buscarEmpresa();
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        empresaRecyclerViewAdapter = new EmpresaRecyclerViewAdapter(this, empresas);
+        List<Empresa> empresas = banco.buscarEmpresa();
+        recyclerView = findViewById(R.id.recyclerViewEmpresasCadastradas);
+        empresaCadastradaRecyclerViewAdapter = new EmpresaCadastradaRecyclerViewAdapter(this, empresas);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(empresaRecyclerViewAdapter);
-
+        recyclerView.setAdapter(empresaCadastradaRecyclerViewAdapter);
     }
 
-    private void inserirEmpresas() {
-        if (empresas.size() == 0) {
-            Empresa empresa1 = new Empresa(1, "ROMA VENDAS ONLINE", "ROMA VENDAS LTDA", "RUA NELSON CALIXTO 142", "PARQUE SAO VICENTE", "16200-320", "Araçatuba",
-                    "(18)3644-7333", "", "88.060.431/0001-94", "ISENTO");
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.empresas: {
+                Intent intent = new Intent(getApplicationContext(), EmpresaActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.produtos: {
+                Intent intent = new Intent(getApplicationContext(), ProdutoActivity.class);
+                startActivity(intent);
+                this.finish();
+                break;
+            }
+            case R.id.sair: {
+                dialogLogoutEmpresa();
+                break;
+            }
 
-            Empresa empresa2 = new Empresa(2, "MILANO VENDAS OFFLINE", "MILANO VENDAS OFFLINE LTDA", "RUA BELMONTE, 334", "VILA MARIANA", "16334-532", "Araçatuba",
-                    "(19)3523-5232", "", "26.523.811/0001-60", "ISENTO");
 
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
-            banco = new Banco(this);
-            banco.criarEmpresa(empresa1);
-            banco.criarEmpresa(empresa2);
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            this.finish();
         }
     }
 
-    private void inserirProdutosEmpresa() {
+    private void dialogLogoutEmpresa() {
+        new AlertDialog.Builder(this)
+                .setTitle("Logout")
+                .setMessage("Deseja mesmo sair da empresa?")
+                .setPositiveButton("Não", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
 
-        banco = new Banco(this);
-        Produto produto = new Produto(1, 1, "'ALMOFADA VISCO PESCOÇO 28X30CM ROSA CX:", "10060305",
-                "355", "0", "A", "0,224", "4", "", "1");
-        banco.criarProduto(produto);
+                    }
+                })
+                .setNegativeButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sessao.setIdEmpresa("");
+                        Intent intent = new Intent(EmpresaActivity.this, EmpresaActivityLogin.class);
+                        startActivity(intent);
+
+                    }
+                })
+                .show();
 
     }
-
-
 }
