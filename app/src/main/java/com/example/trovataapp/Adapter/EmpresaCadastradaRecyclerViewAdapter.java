@@ -110,6 +110,9 @@ public class EmpresaCadastradaRecyclerViewAdapter extends RecyclerView.Adapter<E
     }
 
     private void removerEmpresaLista(Empresa empresa) {
+        int position = empresas.indexOf(empresa);
+        empresas.remove(position);
+        notifyItemRemoved(position);
     }
 
 

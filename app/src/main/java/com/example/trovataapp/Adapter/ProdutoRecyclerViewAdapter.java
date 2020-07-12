@@ -75,7 +75,7 @@ public class ProdutoRecyclerViewAdapter extends RecyclerView.Adapter<ProdutoRecy
     @Override
     public Filter getFilter() {
         if (filtro == null) {
-            filtro = new FiltroProdutos((ArrayList<Produto>) filtroProdutos, this);
+            filtro = new FiltroProdutos((ArrayList<Produto>) filtroProdutos, this, context);
         }
 
         return filtro;
@@ -107,15 +107,6 @@ public class ProdutoRecyclerViewAdapter extends RecyclerView.Adapter<ProdutoRecy
         notifyItemRemoved(position);
     }
 
-    public void atualizarProduto(Produto produto) {
-        produtos.set(produtos.indexOf(produto), produto);
-        notifyItemChanged(produtos.indexOf(produto));
-    }
-
-    public void adicionarProduto(Produto produto) {
-        produtos.add(produto);
-        notifyItemInserted(getItemCount());
-    }
 
     private void dialogConfirmaExclusaoProduto(View v, Produto produto) {
         final View view = v;

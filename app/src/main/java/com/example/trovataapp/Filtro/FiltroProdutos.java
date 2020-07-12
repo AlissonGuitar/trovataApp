@@ -1,20 +1,27 @@
 package com.example.trovataapp.Filtro;
 
+import android.content.Context;
 import android.widget.Filter;
+import com.example.trovataapp.Activity.ProdutoActivity;
 import com.example.trovataapp.Adapter.ProdutoRecyclerViewAdapter;
+import com.example.trovataapp.Banco.Banco;
+import com.example.trovataapp.Model.GrupoProduto;
 import com.example.trovataapp.Model.Produto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FiltroProdutos extends Filter {
 
     ArrayList<Produto> filtroProdutos;
     ProdutoRecyclerViewAdapter produtoRecyclerViewAdapter;
-    public static String tipoFiltroProduto = "";
+    public static String tipoFiltroProduto = "Descrição";
+    private Context context;
 
-    public FiltroProdutos(ArrayList<Produto> filtro, ProdutoRecyclerViewAdapter produtoRecyclerViewAdapter) {
+    public FiltroProdutos(ArrayList<Produto> filtro, ProdutoRecyclerViewAdapter produtoRecyclerViewAdapter, Context context) {
         this.filtroProdutos = filtro;
         this.produtoRecyclerViewAdapter = produtoRecyclerViewAdapter;
+        this.context = context;
     }
 
     @Override
@@ -30,8 +37,16 @@ public class FiltroProdutos extends Filter {
             switch (tipoFiltroProduto) {
                 case "Grupo Produto":
                     for (Produto produto : filtroProdutos) {
-                        if (String.valueOf(produto.getGrupoProdutoId()).toUpperCase().contains(constraint)) {
-                            filtroModelo.add(produto);
+
+                        Banco banco = new Banco(context);
+                        List<GrupoProduto> grupoProdutos = banco.buscarGrupoProdutoEmpresa(ProdutoActivity.idEmpresa);
+                        for (GrupoProduto grupoProduto : grupoProdutos) {
+                            if (grupoProduto.getGrupoProdutoId() == produto.getGrupoProdutoId()) {
+
+                                if (String.valueOf(grupoProduto.getDescricaoGrupoProduto()).toUpperCase().contains(constraint)) {
+                                    filtroModelo.add(produto);
+                                }
+                            }
                         }
                     }
                     break;

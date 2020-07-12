@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
+import com.example.trovataapp.Activity.EmpresaActivityLogin;
 import com.example.trovataapp.Model.Empresa;
 import com.example.trovataapp.Model.GrupoProduto;
 import com.example.trovataapp.Model.Produto;
@@ -22,7 +23,7 @@ public class Banco extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 54;
+    private static final int DATABASE_VERSION = 68;
 
     // Database Name
     private static final String DATABASE_NAME = "trovata.db";
@@ -268,6 +269,7 @@ public class Banco extends SQLiteOpenHelper {
         values.put(ENDERECO, empresa.getEndereco());
         values.put(BAIRRO, empresa.getBairro());
         values.put(CEP, empresa.getCep());
+        values.put(PAIS, empresa.getPais());
         values.put(CIDADE, empresa.getCidade());
         values.put(TELEFONE, empresa.getTelefone());
         values.put(FAX, empresa.getFax());
@@ -287,6 +289,7 @@ public class Banco extends SQLiteOpenHelper {
         values.put(ENDERECO, empresa.getEndereco());
         values.put(BAIRRO, empresa.getBairro());
         values.put(CEP, empresa.getCep());
+        values.put(PAIS, empresa.getPais());
         values.put(CIDADE, empresa.getCidade());
         values.put(TELEFONE, empresa.getTelefone());
         values.put(FAX, empresa.getFax());

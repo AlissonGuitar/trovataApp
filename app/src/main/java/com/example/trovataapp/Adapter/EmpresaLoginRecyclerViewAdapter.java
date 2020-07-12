@@ -20,6 +20,7 @@ public class EmpresaLoginRecyclerViewAdapter extends RecyclerView.Adapter<Empres
 
     private Context context;
     private List<Empresa> empresas;
+    public static String nomeEmpresa;
 
     public EmpresaLoginRecyclerViewAdapter(Context context, List<Empresa> empresas) {
         this.context = context;
@@ -47,7 +48,7 @@ public class EmpresaLoginRecyclerViewAdapter extends RecyclerView.Adapter<Empres
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     String idEmpresa = String.valueOf(empresas.get(position).getEmpresaId());
                     ProdutoActivity.idEmpresa = Integer.parseInt(idEmpresa);
-                    ProdutoActivity.nomeEmpresa = empresas.get(position).getRazaoSocial();
+                    nomeEmpresa = empresas.get(position).getRazaoSocial();
                     Intent intent = new Intent(context, ProdutoActivity.class);
                     context.startActivity(intent);
 

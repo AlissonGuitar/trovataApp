@@ -1,81 +1,154 @@
-<ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                     xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="match_parent"
+>
 
-<LinearLayout android:layout_height="match_parent" android:layout_width="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
-              xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <ImageView
-            android:id="@+id/imagemProduto"
-            android:layout_width="193dp" android:layout_height="wrap_content"
-            android:src="@drawable/imagemproduto" android:layout_gravity="center"
-            android:contentDescription="imagemProduto"/>
-    <Button
-            android:id="@+id/btnImagemProduto"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center" android:text="Escolha imagem Produto"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
 
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:text="Empresa:"/>
-    <Spinner
-            android:layout_marginTop="20dp"
-            android:id="@+id/spinner_empresa"
+            <ImageView
+                    android:id="@+id/imagemProduto"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:src="@drawable/imagemproduto" android:layout_gravity="center"
+                    android:clickable="true"
+                    android:contentDescription="imagemProduto"/>
+
+            <Spinner
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/spinner_empresa"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog"
+                    android:prompt="@string/selecione_empresa"
+                    android:layout_width="match_parent">
+            </Spinner>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                <EditText
+                        android:id="@+id/descricaoProdutoLista"
+                        android:layout_width="match_parent" android:hint="descricao Produto"
+                        android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <EditText
+                        android:id="@+id/apelidoProduto"
+                        android:layout_width="match_parent" android:hint="apelido Produto"
+                        android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                    android:id="@+id/spinner_grupo_produto"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog"
+                    android:layout_marginTop="15dp"
+                    android:prompt="@string/selecione_grupo_produto"
+                    android:layout_width="match_parent">
+            </Spinner>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <EditText
+                        android:id="@+id/subGrupoProduto"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="match_parent" android:hint="sub Grupo Produto"
+                        android:layout_height="wrap_content"/>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailTextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                <EditText
+                        android:id="@+id/situacao"
+                        android:layout_width="match_parent" android:hint="situaçao"
+                        android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <EditText
+                        android:id="@+id/pesoLiquido"
+                        android:layout_width="match_parent" android:hint="peso liquido"
+                        android:layout_height="wrap_content" android:inputType="number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <EditText
+                        android:id="@+id/classificacaoFiscal"
+                        android:layout_width="match_parent" android:hint="classificacao fiscal"
+                        android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content">
+                <EditText
+                        android:id="@+id/codigoBarras"
+                        android:layout_width="match_parent" android:hint="codigo barras"
+                        android:layout_height="wrap_content"/>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content">
+
+                <EditText
+                        android:id="@+id/colecao"
+                        android:layout_width="match_parent" android:hint="colecao"
+                        android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnSalvarProduto"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            android:layout_width="match_parent">
-    </Spinner>
-
-    <EditText
-            android:id="@+id/descricaoProdutoLista"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent" android:hint="descricao Produto"
-            android:layout_height="wrap_content"/>
-    <EditText
-            android:id="@+id/apelidoProduto"
-            android:layout_width="match_parent" android:hint="apelido Produto"
-            android:layout_height="wrap_content"/>
-    <Spinner
-            android:layout_marginTop="20dp"
-            android:id="@+id/spinner_grupo_produto"
-            android:layout_height="wrap_content"
-            android:spinnerMode="dialog"
-            android:layout_width="match_parent">
-    </Spinner>
-
-    <EditText
-            android:id="@+id/subGrupoProduto"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent" android:hint="subGrupo Produto"
-            android:layout_height="wrap_content"/>
-    <EditText
-            android:id="@+id/situacao"
-            android:layout_width="match_parent" android:hint="situaçao"
-            android:layout_height="wrap_content"/>
-    <EditText
-            android:id="@+id/pesoLiquido"
-            android:layout_width="match_parent" android:hint="peso liquido"
-            android:layout_height="wrap_content" android:inputType="number"/>
-    <EditText
-            android:id="@+id/classificacaoFiscal"
-            android:layout_width="match_parent" android:hint="classificacao fiscal"
-            android:layout_height="wrap_content"/>
-    <EditText
-            android:id="@+id/codigoBarras"
-            android:layout_width="match_parent" android:hint="codigo barras"
-            android:layout_height="wrap_content"/>
-    <EditText
-            android:id="@+id/colecao"
-            android:layout_width="match_parent" android:hint="colecao"
-            android:layout_height="wrap_content"/>
-
-    <Button
-
-            android:id="@+id/btnCadastrar" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Cadastrar"/>
+            android:layout_margin="16dp"
+            android:src="@drawable/salvar"
+            app:fabSize="normal"
+            app:layout_anchor="@id/scrollView"
+            app:layout_anchorGravity="bottom|right|end"/>
 
 
-</LinearLayout>
-
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

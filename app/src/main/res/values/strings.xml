@@ -2,4 +2,6 @@
     <string name="app_name">trovataApp</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Fechar</string>
+    <string name="selecione_empresa">Selecione Empresa:</string>
+    <string name="selecione_grupo_produto">Selecione Grupo Produto:</string>
 </resources>

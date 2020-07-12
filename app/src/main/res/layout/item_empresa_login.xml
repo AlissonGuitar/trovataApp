@@ -24,7 +24,7 @@
                     android:layout_height="125dp"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
-                    android:src="@drawable/empresa" />
+                    android:src="@drawable/trovata" />
             </RelativeLayout>
 
             <LinearLayout

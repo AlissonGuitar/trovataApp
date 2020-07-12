@@ -1,5 +1,7 @@
 package com.example.trovataapp.Activity;
 
+import android.content.Intent;
+import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import com.example.trovataapp.Banco.Banco;
 import com.example.trovataapp.Model.*;
 import com.example.trovataapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmpresaActivityLogin extends AppCompatActivity {
@@ -19,7 +22,6 @@ public class EmpresaActivityLogin extends AppCompatActivity {
     private EmpresaLoginRecyclerViewAdapter empresaRecyclerViewAdapter;
     private Banco banco;
     private static List<Empresa> empresas;
-    private Sessao sessao;
 
 
     @Override
@@ -33,24 +35,25 @@ public class EmpresaActivityLogin extends AppCompatActivity {
         }
 
 
-        carregarEmpresas();
         inserirEmpresas();
+
 
 
     }
 
     private void carregarEmpresas() {
-
-        banco = new Banco(this);
         empresas = banco.buscarEmpresa();
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         empresaRecyclerViewAdapter = new EmpresaLoginRecyclerViewAdapter(this, empresas);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(empresaRecyclerViewAdapter);
 
+
     }
 
-    private void inserirEmpresas() {
+    public void inserirEmpresas() {
+        banco = new Banco(this);
+        empresas = banco.buscarEmpresa();
         if (empresas.size() == 0) {
             Empresa empresa1 = new Empresa(1,
                     "ROMA VENDAS ONLINE",
@@ -85,6 +88,17 @@ public class EmpresaActivityLogin extends AppCompatActivity {
             inserirProdutos();
             inserirGrupoProduto();
             inserirTipoComplemento();
+
+            List<Empresa> empresasAtualizada = banco.buscarEmpresa();
+            RecyclerView recyclerView = findViewById(R.id.recyclerView);
+            empresaRecyclerViewAdapter = new EmpresaLoginRecyclerViewAdapter(this, empresasAtualizada);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(empresaRecyclerViewAdapter);
+
+
+        }
+        else{
+            carregarEmpresas();
         }
     }
 
@@ -95,7 +109,7 @@ public class EmpresaActivityLogin extends AppCompatActivity {
 
 
         Produto produto1 = new Produto(1, 1, null, "'ALMOFADA VISCO PESCOÇO 28X30CM ROSA CX:", "10060305",
-                355, "0", "A", "0,224", "4", "", "1");
+                4, "0", "A", "0,224", "4", "", "1");
 
 
         banco.criarProduto(produto1);

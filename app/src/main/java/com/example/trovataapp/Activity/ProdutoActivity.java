@@ -18,17 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.trovataapp.Adapter.EmpresaLoginRecyclerViewAdapter;
 import com.example.trovataapp.Adapter.ProdutoRecyclerViewAdapter;
 import com.example.trovataapp.Banco.Banco;
 import com.example.trovataapp.Filtro.FiltroProdutos;
 import com.example.trovataapp.Model.Produto;
-import com.example.trovataapp.Model.Sessao;
 import com.example.trovataapp.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,12 +36,10 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
     private Banco banco;
     private List<Produto> produtos;
     public static int idEmpresa;
-    public static String nomeEmpresa;
     private RecyclerView recyclerView;
     private Spinner spinner;
     private ProdutoRecyclerViewAdapter produtoRecyclerViewAdapter;
-    private Sessao sessao;
-    private FloatingActionButton btnCadastrarNovo;
+    private FloatingActionButton btnCadastrarNovoProduto;
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -54,13 +51,12 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview_produtos);
 
-        sessao = new Sessao(this);
-        sessao.setIdEmpresa(String.valueOf(idEmpresa));
-        sessao.setNomeEmpresaLogado(nomeEmpresa);
-        btnCadastrarNovo = findViewById(R.id.btnCadastrarNovo);
+        btnCadastrarNovoProduto = findViewById(R.id.btnCadastrarNovoProduto);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navViewProduto);
         navigationView.setNavigationItemSelectedListener(this);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.produtos).setVisible(false);
 
 
         toolbar = findViewById(R.id.toolbar);
@@ -69,7 +65,7 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
         View headerView = navigationView.getHeaderView(0);
         nomeEmpresaLogadaNavHeader = headerView.findViewById(R.id.nomeEmpresaLogadaNavHeader);
 
-        nomeEmpresaLogadaNavHeader.setText(sessao.getNomeEmpresaLogado());
+        nomeEmpresaLogadaNavHeader.setText(EmpresaLoginRecyclerViewAdapter.nomeEmpresa);
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
@@ -82,7 +78,7 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
 
         iniciarSpinnerOrdenacao();
 
-        btnCadastrarNovo.setOnClickListener(new View.OnClickListener() {
+        btnCadastrarNovoProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ActivityCadastrarProduto.class);
@@ -95,7 +91,6 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
 
     private void carregarProdutosEmpresa() {
         banco = new Banco(this);
-        produtos = new ArrayList<>();
         produtos = banco.buscarProdutoEmpresa(idEmpresa);
         recyclerView = findViewById(R.id.recyclerViewProdutosCadastrados);
         produtoRecyclerViewAdapter = new ProdutoRecyclerViewAdapter(this, produtos);
@@ -198,21 +193,22 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
             public void onClick(DialogInterface dialog, int which) {
 
                 switch (which) {
-                    case 1:
+                    case 0:
                         FiltroProdutos.tipoFiltroProduto = "Grupo Produto";
                         break;
-                    case 2:
+                    case 1:
                         FiltroProdutos.tipoFiltroProduto = "Tipo Complemento Grupo Produto";
                         break;
-                    case 3:
+                    case 2:
                         FiltroProdutos.tipoFiltroProduto = "Descrição";
                         break;
-                    case 4:
+                    case 3:
                         FiltroProdutos.tipoFiltroProduto = "Apelido";
                         break;
-                    case 5:
+                    case 4:
                         FiltroProdutos.tipoFiltroProduto = "Código";
                         break;
+
 
                 }
 
@@ -231,12 +227,7 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
             case R.id.empresas: {
                 Intent intent = new Intent(getApplicationContext(), EmpresaActivity.class);
                 startActivity(intent);
-                this.finish();
-                break;
-            }
-            case R.id.produtos: {
-                Intent intent = new Intent(getApplicationContext(), ProdutoActivity.class);
-                startActivity(intent);
+                finish();
                 break;
             }
             case R.id.sair: {
@@ -255,7 +246,7 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            this.finish();
+            finish();
         }
     }
 
@@ -273,13 +264,14 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
                 .setNegativeButton("Sim", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        sessao.setIdEmpresa("");
                         Intent intent = new Intent(ProdutoActivity.this, EmpresaActivityLogin.class);
                         startActivity(intent);
+                        finish();
 
                     }
                 })
                 .show();
 
     }
+
 }

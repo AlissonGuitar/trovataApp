@@ -16,8 +16,8 @@ import com.example.trovataapp.Banco.Banco;
 import com.example.trovataapp.Model.Empresa;
 import com.example.trovataapp.Model.GrupoProduto;
 import com.example.trovataapp.Model.Produto;
-import com.example.trovataapp.Model.Sessao;
 import com.example.trovataapp.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -25,14 +25,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.trovataapp.Activity.ProdutoActivity.idEmpresa;
+
 public class ActivityCadastrarProduto extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Produto produtoEdicao = null;
     private Spinner spinnerEmpresa, spinnerGrupoProduto;
     private EditText descricaoProduto, apelidoProduto, subGrupoProduto, situacao, pesoLiquido, classificacaoFiscal, codigoBarras, colecao;
     private Banco banco;
-    private Sessao sessao;
-    private static Button btnCadastrarProduto;
+    private static FloatingActionButton btnCadastrarProduto;
     private static List<Empresa> empresas;
     private static List<GrupoProduto> grupoProdutos;
     private static int idGrupoProduto;
@@ -45,7 +46,7 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_produto);
-        sessao = new Sessao(this);
+
 
 
         iniciarItens();
@@ -64,7 +65,7 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
 
 
             if (produtoEdicao.getImagemProduto() == null) {
-                imagemProduto.setImageResource(R.mipmap.ic_launcher);
+                imagemProduto.setImageResource(R.drawable.imagemproduto);
             } else {
                 byte[] imagemProdutoByte = produtoEdicao.getImagemProduto();
                 Bitmap bitmap = BitmapFactory.decodeByteArray(imagemProdutoByte, 0, imagemProdutoByte.length);
@@ -97,11 +98,10 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
         classificacaoFiscal = findViewById(R.id.classificacaoFiscal);
         codigoBarras = findViewById(R.id.codigoBarras);
         colecao = findViewById(R.id.colecao);
-        btnCadastrarProduto = findViewById(R.id.btnCadastrar);
-        btnImagemProduto = findViewById(R.id.btnImagemProduto);
+        btnCadastrarProduto = findViewById(R.id.btnSalvarProduto);
 
 
-        btnImagemProduto.setOnClickListener(new View.OnClickListener() {
+        imagemProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ActivityCompat.requestPermissions(ActivityCadastrarProduto.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
@@ -114,7 +114,7 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
 
         ArrayList<String> grupoProdutosSpinner = new ArrayList<>();
         banco = new Banco(this);
-        grupoProdutos = banco.buscarGrupoProdutoEmpresa(Integer.parseInt(sessao.getIdEmpresa()));
+        grupoProdutos = banco.buscarGrupoProdutoEmpresa(idEmpresa);
         for (GrupoProduto grupoProduto : grupoProdutos) {
             if (grupoProduto.getGrupoProdutoId() == produtoEdicao.getGrupoProdutoId()) {
                 grupoProdutosSpinner.add(grupoProduto.getDescricaoGrupoProduto());
@@ -141,7 +141,7 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
 
         ArrayList<String> grupoProdutosSpinner = new ArrayList<>();
         banco = new Banco(this);
-        grupoProdutos = banco.buscarGrupoProdutoEmpresa(Integer.parseInt(sessao.getIdEmpresa()));
+        grupoProdutos = banco.buscarGrupoProdutoEmpresa(idEmpresa);
         for (GrupoProduto grupoProduto : grupoProdutos) {
             grupoProdutosSpinner.add(grupoProduto.getDescricaoGrupoProduto());
 
@@ -160,7 +160,7 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
         banco = new Banco(this);
         empresas = banco.buscarEmpresa();
         for (Empresa empresa : empresas) {
-            if (empresa.getEmpresaId() == Integer.parseInt(sessao.getIdEmpresa())) {
+            if (empresa.getEmpresaId() == idEmpresa) {
                 empresasSpinner.add(empresa.getRazaoSocial());
             }
         }
@@ -176,100 +176,104 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
 
     private void salvarProduto() {
 
-
         btnCadastrarProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String descricaoProdutoString = descricaoProduto.getText().toString();
-                String apelidoProdutoString = apelidoProduto.getText().toString();
-                String subGrupoProdutoString = subGrupoProduto.getText().toString();
-                String situacaoString = situacao.getText().toString();
-                String pesoLiquidoString = pesoLiquido.getText().toString();
-                String classificacaoFiscalString = classificacaoFiscal.getText().toString();
-                String codigoBarrasString = codigoBarras.getText().toString();
-                String colecaoString = colecao.getText().toString();
-
-                banco = new Banco(getApplicationContext());
-                if (produtoEdicao != null) {
-                    Produto produtoEditado = new Produto(Integer.parseInt(sessao.getIdEmpresa()), produtoEdicao.getProdutoId(),
-                            imageViewToByte(imagemProduto),
-                            descricaoProdutoString,
-                            apelidoProdutoString,
-                            idGrupoProduto,
-                            subGrupoProdutoString,
-                            situacaoString,
-                            pesoLiquidoString,
-                            classificacaoFiscalString,
-                            codigoBarrasString,
-                            colecaoString);
-                    sucesso = banco.updateProduto(produtoEditado);
-
-                    if (sucesso) {
-
-                        descricaoProduto.setText("");
-                        apelidoProduto.setText("");
-                        situacao.setText("");
-                        pesoLiquido.setText("");
-                        classificacaoFiscal.setText("");
-                        codigoBarras.setText("");
-                        colecao.setText("");
-                        imagemProduto.setImageResource(R.mipmap.ic_launcher);
-                        Toast.makeText(getApplicationContext(), "Produto Editado com Sucesso!", Toast.LENGTH_SHORT).show();
-
-                        Intent intent = new Intent(getApplicationContext(), ProdutoActivity.class);
-                        startActivity(intent);
-
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Ocorreu um erro ao editar o Produto!", Toast.LENGTH_SHORT).show();
-
-                    }
+                if (validarCampos()) {
 
 
-                } else {
+                    String descricaoProdutoString = descricaoProduto.getText().toString();
+                    String apelidoProdutoString = apelidoProduto.getText().toString();
+                    String subGrupoProdutoString = subGrupoProduto.getText().toString();
+                    String situacaoString = situacao.getText().toString();
+                    String pesoLiquidoString = pesoLiquido.getText().toString();
+                    String classificacaoFiscalString = classificacaoFiscal.getText().toString();
+                    String codigoBarrasString = codigoBarras.getText().toString();
+                    String colecaoString = colecao.getText().toString();
 
-                    Produto produtoNovo = new Produto(Integer.parseInt(sessao.getIdEmpresa()), 0,
-                            imageViewToByte(imagemProduto),
-                            descricaoProdutoString,
-                            apelidoProdutoString,
-                            idGrupoProduto,
-                            subGrupoProdutoString,
-                            situacaoString,
-                            pesoLiquidoString,
-                            classificacaoFiscalString,
-                            codigoBarrasString,
-                            colecaoString);
+                    banco = new Banco(getApplicationContext());
+                    if (produtoEdicao != null) {
+                        Produto produtoEditado = new Produto(idEmpresa, produtoEdicao.getProdutoId(),
+                                imageViewToByte(imagemProduto),
+                                descricaoProdutoString,
+                                apelidoProdutoString,
+                                idGrupoProduto,
+                                subGrupoProdutoString,
+                                situacaoString,
+                                pesoLiquidoString,
+                                classificacaoFiscalString,
+                                codigoBarrasString,
+                                colecaoString);
+                        sucesso = banco.updateProduto(produtoEditado);
 
-                    sucesso = banco.criarProduto(produtoNovo);
+                        if (sucesso) {
 
-                    if (sucesso) {
+                            descricaoProduto.setText("");
+                            apelidoProduto.setText("");
+                            situacao.setText("");
+                            pesoLiquido.setText("");
+                            classificacaoFiscal.setText("");
+                            codigoBarras.setText("");
+                            colecao.setText("");
+                            imagemProduto.setImageResource(R.drawable.imagemproduto);
+                            Toast.makeText(getApplicationContext(), "Produto Editado com Sucesso!", Toast.LENGTH_SHORT).show();
 
-                        descricaoProduto.setText("");
-                        apelidoProduto.setText("");
-                        situacao.setText("");
-                        pesoLiquido.setText("");
-                        classificacaoFiscal.setText("");
-                        codigoBarras.setText("");
-                        colecao.setText("");
-                        imagemProduto.setImageResource(R.mipmap.ic_launcher);
+                            Intent intent = new Intent(getApplicationContext(), ProdutoActivity.class);
+                            startActivity(intent);
 
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Ocorreu um erro ao editar o Produto!", Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(getApplicationContext(), "Produto Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
-
-                        Intent intent = new Intent(getApplicationContext(), ProdutoActivity.class);
-                        startActivity(intent);
+                        }
 
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "Ocorreu um erro ao salvar o Produto!", Toast.LENGTH_SHORT).show();
+
+                        Produto produtoNovo = new Produto(idEmpresa, 0,
+                                imageViewToByte(imagemProduto),
+                                descricaoProdutoString,
+                                apelidoProdutoString,
+                                idGrupoProduto,
+                                subGrupoProdutoString,
+                                situacaoString,
+                                pesoLiquidoString,
+                                classificacaoFiscalString,
+                                codigoBarrasString,
+                                colecaoString);
+
+                        sucesso = banco.criarProduto(produtoNovo);
+
+                        if (sucesso) {
+
+                            descricaoProduto.setText("");
+                            apelidoProduto.setText("");
+                            situacao.setText("");
+                            pesoLiquido.setText("");
+                            classificacaoFiscal.setText("");
+                            codigoBarras.setText("");
+                            colecao.setText("");
+                            imagemProduto.setImageResource(R.mipmap.ic_launcher);
+
+
+                            Toast.makeText(getApplicationContext(), "Produto Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(getApplicationContext(), ProdutoActivity.class);
+                            startActivity(intent);
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Ocorreu um erro ao salvar o Produto!", Toast.LENGTH_SHORT).show();
+                        }
+
+
                     }
 
 
                 }
-
-
             }
         });
+
+
     }
 
     @Override
@@ -349,6 +353,21 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
         return byteArray;
+    }
+
+    private boolean validarCampos() {
+        if (descricaoProduto.getText().toString().length() == 0) {
+            descricaoProduto.setError("Digite a descrição!");
+            return false;
+        }
+
+        if (situacao.getText().toString().length() == 0) {
+            situacao.setError("Digite a situação!");
+            return false;
+        }
+
+
+        return true;
     }
 
 }
