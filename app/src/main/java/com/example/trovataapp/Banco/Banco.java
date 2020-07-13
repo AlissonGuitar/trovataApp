@@ -23,7 +23,7 @@ public class Banco extends SQLiteOpenHelper {
 
 
     // Database Version
-    private static final int DATABASE_VERSION = 68;
+    private static final int DATABASE_VERSION = 1;
 
     // Database Name
     private static final String DATABASE_NAME = "trovata.db";

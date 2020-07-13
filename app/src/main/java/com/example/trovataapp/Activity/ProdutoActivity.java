@@ -51,6 +51,14 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview_produtos);
 
+        iniciarItens();
+        carregarProdutosEmpresa();
+        iniciarSpinnerOrdenacao();
+
+
+    }
+
+    private void iniciarItens() {
         btnCadastrarNovoProduto = findViewById(R.id.btnCadastrarNovoProduto);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navViewProduto);
@@ -64,19 +72,11 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
         getSupportActionBar().setTitle("Produtos Cadastrados");
         View headerView = navigationView.getHeaderView(0);
         nomeEmpresaLogadaNavHeader = headerView.findViewById(R.id.nomeEmpresaLogadaNavHeader);
-
         nomeEmpresaLogadaNavHeader.setText(EmpresaLoginRecyclerViewAdapter.nomeEmpresa);
-
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-
-        carregarProdutosEmpresa();
-        produtoRecyclerViewAdapter.notifyDataSetChanged();
-
-        iniciarSpinnerOrdenacao();
 
         btnCadastrarNovoProduto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +85,6 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
                 startActivity(intent);
             }
         });
-
 
     }
 
@@ -96,6 +95,7 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
         produtoRecyclerViewAdapter = new ProdutoRecyclerViewAdapter(this, produtos);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(produtoRecyclerViewAdapter);
+        produtoRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     private void iniciarSpinnerOrdenacao() {

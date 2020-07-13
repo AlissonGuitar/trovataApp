@@ -43,24 +43,19 @@ public class EmpresaActivity extends AppCompatActivity implements NavigationView
         setContentView(R.layout.activity_recyclerview_empresa);
 
 
+        iniciarItens();
+        carregarEmpresas();
+
+    }
+
+    private void iniciarItens() {
+
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navViewEmpresa);
         navigationView.setNavigationItemSelectedListener(this);
         Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.empresas).setVisible(false);
-
-
         btnCadastrarNovaEmpresa = findViewById(R.id.btnCadastrarNovaEmpresa);
-
-        btnCadastrarNovaEmpresa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EmpresaActivity.this, ActivityCadastrarEmpresa.class);
-                startActivity(intent);
-            }
-        });
-
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Empresas Cadastradas");
@@ -74,7 +69,13 @@ public class EmpresaActivity extends AppCompatActivity implements NavigationView
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        carregarEmpresas();
+        btnCadastrarNovaEmpresa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EmpresaActivity.this, ActivityCadastrarEmpresa.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -27,8 +27,6 @@ import java.util.List;
 
 public class ActivityCadastrarEmpresa extends AppCompatActivity {
 
-    private static EmpresaLoginRecyclerViewAdapter empresaRecyclerViewAdapter;
-    private static List<Empresa> empresas;
     private Banco banco;
     private Empresa empresaEdicao = null;
     private EditText nomeFantasia, razaoSocial, endereco, bairro, cep, pais, cidade, telefone, fax, cnpj, ie;

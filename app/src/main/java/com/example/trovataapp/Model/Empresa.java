@@ -11,7 +11,6 @@ public class Empresa implements Serializable {
     private String bairro;
     private String cep;
     private String pais;
-
     private String cidade;
     private String telefone;
     private String fax;
