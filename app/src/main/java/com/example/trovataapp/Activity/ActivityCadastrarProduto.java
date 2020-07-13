@@ -38,15 +38,14 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
     private static List<GrupoProduto> grupoProdutos;
     private static int idGrupoProduto;
     private boolean sucesso = false;
-    private Button btnImagemProduto;
     private final int REQUEST_CODE_GALLERY = 999;
     private ImageView imagemProduto;
+    ArrayList<String> grupoProdutosSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_produto);
-
 
 
         iniciarItens();
@@ -112,24 +111,14 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
 
     private void carregarspinnersProdutoEdicao() {
 
-        ArrayList<String> grupoProdutosSpinner = new ArrayList<>();
-        banco = new Banco(this);
-        grupoProdutos = banco.buscarGrupoProdutoEmpresa(idEmpresa);
+
         for (GrupoProduto grupoProduto : grupoProdutos) {
             if (grupoProduto.getGrupoProdutoId() == produtoEdicao.getGrupoProdutoId()) {
-                grupoProdutosSpinner.add(grupoProduto.getDescricaoGrupoProduto());
+                spinnerGrupoProduto.setSelection(getIndex(spinnerGrupoProduto, grupoProduto.getDescricaoGrupoProduto()));
 
             }
 
         }
-
-        ArrayAdapter<String> adapterGrupoProduto = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item,
-                grupoProdutosSpinner);
-
-        adapterGrupoProduto.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinnerGrupoProduto.setAdapter(adapterGrupoProduto);
 
 
     }
@@ -139,7 +128,7 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
         spinnerEmpresa.setOnItemSelectedListener(this);
         spinnerGrupoProduto.setOnItemSelectedListener(this);
 
-        ArrayList<String> grupoProdutosSpinner = new ArrayList<>();
+        grupoProdutosSpinner = new ArrayList<>();
         banco = new Banco(this);
         grupoProdutos = banco.buscarGrupoProdutoEmpresa(idEmpresa);
         for (GrupoProduto grupoProduto : grupoProdutos) {
