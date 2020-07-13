@@ -40,7 +40,8 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
     private boolean sucesso = false;
     private final int REQUEST_CODE_GALLERY = 999;
     private ImageView imagemProduto;
-    ArrayList<String> grupoProdutosSpinner;
+    private ArrayList<String> grupoProdutosSpinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class ActivityCadastrarProduto extends AppCompatActivity implements Adapt
 
 
     }
+
 
     private void carregarItensProdutoEdicao() {
 

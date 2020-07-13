@@ -44,7 +44,7 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private TextView nomeEmpresaLogadaNavHeader;
-
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
 
 
     }
+
 
     private void iniciarItens() {
         btnCadastrarNovoProduto = findViewById(R.id.btnCadastrarNovoProduto);
@@ -93,9 +94,12 @@ public class ProdutoActivity extends AppCompatActivity implements NavigationView
         produtos = banco.buscarProdutoEmpresa(idEmpresa);
         recyclerView = findViewById(R.id.recyclerViewProdutosCadastrados);
         produtoRecyclerViewAdapter = new ProdutoRecyclerViewAdapter(this, produtos);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(produtoRecyclerViewAdapter);
         produtoRecyclerViewAdapter.notifyDataSetChanged();
+
+
     }
 
     private void iniciarSpinnerOrdenacao() {

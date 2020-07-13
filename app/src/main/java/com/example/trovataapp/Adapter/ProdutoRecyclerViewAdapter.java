@@ -26,10 +26,12 @@ public class ProdutoRecyclerViewAdapter extends RecyclerView.Adapter<ProdutoRecy
     public static List<Produto> produtos, filtroProdutos;
     private FiltroProdutos filtro;
 
+
     public ProdutoRecyclerViewAdapter(Context mCtx, List<Produto> produtos) {
         this.context = mCtx;
         this.produtos = produtos;
         filtroProdutos = produtos;
+
     }
 
     @Override
@@ -64,6 +66,8 @@ public class ProdutoRecyclerViewAdapter extends RecyclerView.Adapter<ProdutoRecy
 
             }
         });
+
+
     }
 
 

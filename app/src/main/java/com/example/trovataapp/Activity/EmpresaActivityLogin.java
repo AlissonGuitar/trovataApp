@@ -108,7 +108,7 @@ public class EmpresaActivityLogin extends AppCompatActivity {
         banco = new Banco(this);
 
 
-        Produto produto1 = new Produto(1, 1, null, "'ALMOFADA VISCO PESCOÇO 28X30CM ROSA CX:", "10060305",
+        Produto produto1 = new Produto(1, 1, null, "ALMOFADA VISCO PESCOÇO 28X30CM ROSA CX:", "10060305",
                 4, "0", "A", "0,224", "4", "", "1");
 
 
